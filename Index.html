@@ -1,0 +1,444 @@
+
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+
+
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+</style>
+
+
+    <div class="imagen">
+     <img src="img/abc3909cf254a9468c44e8f6a1b360be.jpg" class="imagen-fija" alt="Decoración">
+    </div>
+
+<div class="izquierda">
+
+<h2>🎵 Música</h2>
+<div class="ipod-widget">
+
+<div class="ipod">
+
+<div class="screen">
+
+<img id="cover">
+
+<p id="track-title"></p>
+
+<div id="progress-container">
+<div id="progress-bar"></div>
+</div>
+
+<div class="time-display">
+<span id="current-time"></span>
+/
+<span id="duration-time"></span>
+</div>
+
+</div>
+
+<div class="controls-wheel">
+
+<button id="play" class="ipod-btn btn-play-pause state-paused">
+<span class="play-icon"></span>
+</button>
+
+<button id="prev" class="ipod-btn btn-prev">
+<span class="icon-prev"></span>
+</button>
+
+<button id="next" class="ipod-btn btn-next">
+<span class="icon-next"></span>
+</button>
+
+</div>
+
+<div class="youtube-hidden-container">
+<div id="player"></div>
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+  
+  let player;
+  let current = 0;
+  let progressInterval = null;
+  let apiReady = false;
+
+  const playlist = [
+    {
+      title: "ONE LOVA - Guerreros del bajo, Efe Jota, Sloowtrack",
+      id: "Oh_bUfkreDA",
+      cover: "img/0a3298dd2482f483e57847a9cb4e68d4.jpg"
+    },
+    {
+      title: "Caramella Girls - Caramelldansen",
+      id: "PDJLvF1dUek",
+      cover: "img/7477a4c42f83eb8a20b1998fa92cec42.jpg"
+    },
+    {
+      title: "Black Sheep - Brie Larson Vocal",
+      id: "jtrmWnFAHYE",
+      cover: "img/02786384f798bcaeefbe06e3a55225d1.jpg"
+    },
+    {
+      title: "Yo Soy Tu Titan - Pamorkill",
+      id: "q8j3zwNhLNo",
+      cover: "img/b1e33f0632f7a89e7b519dcf54214e94.jpg"
+    },
+    {
+      title: "Yaribu; Touch You",
+      id: "0n2c72RKyvs",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+   {
+      title: "Killing Me Softly - Fugees",
+      id: "d-IuOJqAkPU",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+      {
+      title: "Supermercado - Mon Laferte",
+      id: "NJlqXjN2DiE",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+      {
+      title: "4",
+      id: "d-IuOJqAkPU",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+      {
+      title: "4",
+      id: "d-IuOJqAkPU",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    } ,
+     {
+      title: "4",
+      id: "d-IuOJqAkPU",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    } ,
+     {
+      title: "4",
+      id: "d-IuOJqAkPU",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    }
+
+  ];
+
+  function loadYouTubeAPI() {
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+      return;
+    }
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    tag.async = true;
+    document.head.appendChild(tag);
+    window.onYouTubeIframeAPIReady = initPlayer;
+  }
+
+  function initPlayer() {
+    const playerContainer = document.getElementById("player");
+    if (!playerContainer) return;
+
+    player = new YT.Player("player", {
+      height: "0",
+      width: "0",
+      videoId: playlist[current].id,
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        rel: 0,
+        fs: 0,
+        modestbranding: 1,
+        disablekb: 1
+      },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady() {
+    apiReady = true;
+    updateUI();
+  }
+
+  function updateUI() {
+    const titleEl = document.getElementById("track-title");
+    const coverEl = document.getElementById("cover");
+
+    if (titleEl) titleEl.textContent = playlist[current].title;
+    if (coverEl) coverEl.src = playlist[current].cover;
+  }
+
+  function onPlayerStateChange(event) {
+    const playBtn = document.getElementById("play");
+    if (!playBtn) return;
+
+    if (event.data === YT.PlayerState.PLAYING) {
+      playBtn.classList.remove("state-paused");
+      playBtn.classList.add("state-playing");
+      startProgress();
+    } else {
+      playBtn.classList.remove("state-playing");
+      playBtn.classList.add("state-paused");
+      clearInterval(progressInterval);
+    }
+
+    if (event.data === YT.PlayerState.ENDED) {
+      nextSong();
+    }
+  }
+
+  function playCurrentSong(autoplay = false) {
+    if (!player || !apiReady) return;
+
+    player.loadVideoById({
+      videoId: playlist[current].id,
+      autoplay: autoplay ? 1 : 0
+    });
+  }
+
+  function nextSong() {
+    current = (current + 1) % playlist.length;
+    updateUI();
+    playCurrentSong(true);
+  }
+
+  function previousSong() {
+    current = (current - 1 + playlist.length) % playlist.length;
+    updateUI();
+    playCurrentSong(true);
+  }
+
+  document.getElementById("play").addEventListener("click", function () {
+    if (!apiReady || !player) return;
+
+    const state = player.getPlayerState();
+
+    if (state === YT.PlayerState.PLAYING) {
+      player.pauseVideo();
+    } else if (state === -1) {
+      playCurrentSong(true);
+    } else {
+      player.playVideo();
+    }
+  });
+
+  document.getElementById("next").addEventListener("click", nextSong);
+  document.getElementById("prev").addEventListener("click", previousSong);
+
+  function startProgress() {
+    clearInterval(progressInterval);
+
+    progressInterval = setInterval(function () {
+      if (!player || !player.getDuration || !player.getCurrentTime) return;
+
+      const duration = player.getDuration();
+      const currentTime = player.getCurrentTime();
+      const progressBar = document.getElementById("progress-bar");
+      const currentTimeEl = document.getElementById("current-time");
+      const durationTimeEl = document.getElementById("duration-time");
+
+      if (duration > 0) {
+        const percent = (currentTime / duration) * 100;
+
+        if (progressBar) progressBar.style.width = percent + "%";
+        if (currentTimeEl) currentTimeEl.textContent = formatTime(currentTime);
+        if (durationTimeEl) durationTimeEl.textContent = formatTime(duration);
+      }
+    }, 500);
+  }
+
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  }
+
+  document.getElementById("progress-container").addEventListener("click", function (e) {
+    if (!apiReady || !player || !player.getDuration) return;
+
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percent = x / rect.width;
+    const duration = player.getDuration();
+
+    if (duration > 0) {
+      player.seekTo(duration * percent, true);
+    }
+  });
+
+  loadYouTubeAPI();
+</script>
+
+
+
+
+<div class="playlist-container">
+  <h4>Lista de reproducción</h4>
+  <ul id="playlist"></ul>
+</div>
+
+<script>
+function renderPlaylist() {
+  const playlistEl = document.getElementById("playlist");
+  if (!playlistEl) return;
+
+  playlistEl.innerHTML = "";
+  playlist.forEach((track, index) => {
+    const item = document.createElement("li");
+    item.className = "playlist-item" + (index === current ? " active" : "");
+    item.textContent = `${index + 1}. ${track.title}`;
+    item.addEventListener("click", () => {
+      current = index;
+      updateUI();
+      playCurrentSong(true);
+      renderPlaylist();
+    });
+    playlistEl.appendChild(item);
+  });
+}
+
+function updateUI() {
+  const titleEl = document.getElementById("track-title");
+  const coverEl = document.getElementById("cover");
+
+  if (titleEl) titleEl.textContent = playlist[current].title;
+  if (coverEl) coverEl.src = playlist[current].cover;
+  renderPlaylist();
+}
+
+</script>
+
+
+
+
+</div></div>
+
+
+
+
+
+
+<!-- Contenido principal -->
+
+
+
+
+
+
+
+
+<div class="principal">
+
+
+<div class="contenido">
+
+<div class="tarjeta">
+
+<img src="img/8ca6b6be714ac069523e89376bb58eac.jpg" alt="Mi foto" class="Mifoto">
+<div class="tema">
+    <h1>Angie Escobar</h1>
+</div>
+<div class="sobremi">
+    <p>
+    Bienvenido a mi blog personal. Aquí compartiré quién soy,
+    mis gustos, mis pensamientos y algunas cosas importantes de mi vida.
+    </p>
+</div>
+<div class="informacion">
+    <h3 class="h3"> Información personal</h3>
+    <p><b>Nombre:</b> Angie</p>
+    <p><b>Edad:</b> 17 años</p>
+    <p><b>Ciudad:</b> Morelos</p>
+    <p><b>Genero:</b> Femenino</p>
+    <p><b>Orientacion sexual:</b> Androide</p>
+    <p><b>Fecha de nacimiento:</b> 20-septiembre-2008</p>
+    <p><b>Ocupación:</b> Estudiante</p>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+</div>
+</div>
+<!--barra lateral derecha-->
+<div class="contenido">
+<div class="tarjeta1">
+<div class="tarjeta2">
+
+<div class="caja">
+<h3>😊 Estado de ánimo</h3>
+<p>Feliz</p>
+</div>
+
+<div class="caja">
+<h3>💭 Mi sueño más íntimo</h3>
+<p>Escribe aquí tu sueño.</p>
+</div>
+
+<div class="caja">
+<h3>💜 Color favorito</h3>
+<p>Morado</p>
+</div>
+
+<div class="caja">
+<h3>🎵 Canción favorita</h3>
+<p>Escribe aquí.</p>
+</div>
+
+<div class="caja">
+<h3>🍕 Comida favorita</h3>
+<p>Escribe aquí.</p>
+</div>
+
+<div class="caja">
+<h3>📖 Frase favorita</h3>
+<p>"Nunca dejes de soñar."</p>
+</div>
+
+</div></div>
+
+</div>
+
+</body>
+</html>
+
+
+<!--
+ cosas que quiero agregar:
+
+valores y pricipios (que creo y como los aplico en mi vida)list de gratitud
+ copartir libros, peliculas y seires favoritas
+ expacios de reflexion personal sobre tus estudios 
+ viztazo a tus pasatiempos, coomo arte fotografia o los deportes
+
+
+ seccion de la mimsion :
+    tus preparativos
+    metas espirituales que tengo y mas adelante
+    experiencias y testiomonios desde el campo misional 
+-->
