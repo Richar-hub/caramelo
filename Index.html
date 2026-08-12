@@ -10,6 +10,51 @@
 
 </head>
 
+<div id="estrellas"></div>
+
+<script>
+const contenedor = document.getElementById("estrellas");
+
+function crearEstrella() {
+
+    const estrella = document.createElement("span");
+
+    estrella.classList.add("estrella");
+
+    // Estrella de cuatro puntas
+    estrella.innerHTML = "✦";
+
+    // Posición horizontal aleatoria
+    estrella.style.left = Math.random() * 100 + "vw";
+
+    // Tamaño aleatorio
+    const tamaño = 8 + Math.random() * 15;
+    estrella.style.fontSize = tamaño + "px";
+
+    // Velocidad aleatoria
+    const duracion = 5 + Math.random() * 6;
+    estrella.style.animationDuration = duracion + "s";
+
+    // Retraso aleatorio
+    estrella.style.animationDelay = Math.random() * 2 + "s";
+
+    // Brillo aleatorio
+    estrella.style.setProperty(
+        "--brillo",
+        5 + Math.random() * 15 + "px"
+    );
+
+    contenedor.appendChild(estrella);
+
+    // Eliminar después de caer
+    setTimeout(() => {
+        estrella.remove();
+    }, (duracion + 3) * 1000);
+}
+
+// Crear estrellas continuamente
+setInterval(crearEstrella, 350);
+</script>
 <body>
 
 
@@ -116,22 +161,57 @@
       cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
     },
       {
-      title: "4",
-      id: "d-IuOJqAkPU",
+      title: "Cafune - Mico TDH",
+      id: "7AHcCUWQevg",
       cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
     },
       {
-      title: "4",
-      id: "d-IuOJqAkPU",
+      title: "Mi buen Amor - Mon Laferte, Bunbury",
+      id: "o8af4YnMSW4",
       cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
     } ,
      {
-      title: "4",
-      id: "d-IuOJqAkPU",
+      title: "Perro Fracasado - Erich",
+      id: "k71unyU68WI",
       cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
     } ,
+         {
+      title: "Termonuclear - Perfecto Miserable",
+      id: "Fl9mU9thE2g ",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
      {
-      title: "4",
+      title: "Cuento - ximena",
+      id: "m5cGwROQGy0",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+     {
+      title: "Siesta Freestyle - Lewis Of Man",
+      id: "iha-8u1EZaM",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+     {
+      title: "Nin~o - Milo J",
+      id: "zI_te4gSWz4",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+     {
+      title: "Notion - The Rare Occcasions",
+      id: "uqt5vN3ImhY",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+     {
+      title: "Vive Con Mota - Babo Cartel",
+      id: "dwxwdU3-94Q",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+     {
+      title: "Bohemian Rhapsody - Queen",
+      id: "Vsum-2Cs2gI",
+      cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
+    },
+     {
+      title: "Non, Je ne regrett rien - Edith Piaf",
       id: "d-IuOJqAkPU",
       cover: "img/abc3909cf254a9468c44e8f6a1b360be.jpg"
     }
@@ -386,7 +466,8 @@ function updateUI() {
 </div>
 </div>
 <!--barra lateral derecha-->
-<div class="contenido">
+<div class="principal">
+  <div class="contenido">
 <div class="tarjeta1">
 <div class="tarjeta2">
 
@@ -397,7 +478,7 @@ function updateUI() {
 
 <div class="caja">
 <h3>💭 Mi sueño más íntimo</h3>
-<p>ser la merjor en todo lo que haga</p>
+<p>Ser la mejor en todo lo que haga</p>
 </div>
 
 <div class="caja">
@@ -407,12 +488,12 @@ function updateUI() {
 
 <div class="caja">
 <h3>🎵 Canción favorita</h3>
-<p>Mis canciones favoritas son las que voy poniendo en el reproductor</p>
+<p>Mis canciones favoritas son las que voy agregando en la playlist.</p>
 </div>
 
 <div class="caja">
 <h3>🍕 Comida favorita</h3>
-<p> Hamburguesa(pistaches en salsa verde)</p>
+<p>Hamburguesas (pistaches en salsa verde)</p>
 </div>
 
 <div class="caja">
@@ -421,8 +502,273 @@ function updateUI() {
 </div>
 
 </div></div>
+</div></div>
+
+<div class="principal">
+  <div class="contenido">
+  <div class="tarjeta">
+    <div class="informacion">
+      <p>Frases iconicas:</p>
+      <p>Calmate (sobre todo cuando estaba ya calmado)</p>
+    </div>
+    <div class="informacion">
+      <p>Frases iconicas:</p>
+      <p>Se que mo te lo deben de decir nunca, pero hoy estas muy guapo.</p>
+    </div>
+<div class="informacion">
+      <p>Frases iconicas:</p>
+      <p>Me sorprende que sepas eso (para la cosa mas basica)</p>
+    </div>
+
+  </div>
+</div>
 
 </div>
+<div class="principal">
+  <div class="contenido">
+  <div class="tarjeta">
+    <div class="encuesta-emociones">
+
+    <h2>¿CÓMO TE SIENTES HOY?</h2>
+
+    <div class="emociones">
+
+        <button class="emocion" data-mensaje="¡Qué bonito! Me alegra que estés feliz ✨">
+            <span class="cara feliz">☺</span>
+        </button>
+
+        <button class="emocion" data-mensaje="Parece que hoy estás tranquilo/a. Tómate tu tiempo 🤍">
+            <span class="cara tranquilo">−</span>
+        </button>
+
+        <button class="emocion" data-mensaje="¡Qué bueno verte tan contento/a! 🌸">
+            <span class="cara alegre">◕‿◕</span>
+        </button>
+
+        <button class="emocion" data-mensaje="Está bien sentirse así. Todo pasa poquito a poquito 🌧️">
+            <span class="cara triste">︵</span>
+        </button>
+
+        <button class="emocion" data-mensaje="¡Vaya! Parece que estás pensando mucho hoy 💭">
+            <span class="cara serio">⌐■</span>
+        </button>
+
+        <button class="emocion" data-mensaje="A veces necesitamos un momento para nosotros mismos 🌙">
+            <span class="cara cansado">︵_︵</span>
+        </button>
+
+        <button class="emocion" data-mensaje="Parece que algo te preocupa. Respira, todo estará bien 🤍">
+            <span class="cara preocupado">•︿•</span>
+        </button>
+
+        <button class="emocion" data-mensaje="¡Oh! Parece que algo te sorprendió 😮">
+            <span class="cara sorprendido">⊙_⊙</span>
+        </button>
+
+        <button class="emocion" data-mensaje="No todos los días son perfectos, y está bien 💙">
+            <span class="cara confundido">•_•</span>
+        </button>
+
+        <button class="emocion" data-mensaje="¡Qué lindo! Espero que tengas un día maravilloso 💕">
+            <span class="cara enamorado">♥‿♥</span>
+        </button>
+
+    </div>
+
+</div>
+
+<div class="libro">
+
+    <!-- PORTADA -->
+    <div class="portada">
+        <div class="decoracion">♥</div>
+
+        <h1>MY<br>BOOK</h1>
+
+        <p>little pieces of me</p>
+
+        <div class="corazon">♡</div>
+    </div>
+
+
+    <!-- PÁGINA 1 -->
+    <div class="pagina pagina1">
+        <div class="contenido-pagina">
+            <span class="numero">01</span>
+
+            <img src="img/foto1.jpg" alt="Foto 1">
+
+            <h2>Una pequeña parte de mí</h2>
+
+            <p>
+                Aquí puedes escribir algo sobre esta fotografía,
+                un recuerdo o simplemente algo que quieras guardar.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- PÁGINA 2 -->
+    <div class="pagina pagina2">
+        <div class="contenido-pagina">
+            <span class="numero">02</span>
+
+            <img src="img/foto2.jpg" alt="Foto 2">
+
+            <h2>Mis recuerdos</h2>
+
+            <p>
+                Algunos momentos merecen quedarse para siempre.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- PÁGINA 3 -->
+    <div class="pagina pagina3">
+        <div class="contenido-pagina">
+            <span class="numero">03</span>
+
+            <img src="img/foto3.jpg" alt="Foto 3">
+
+            <h2>Things I love</h2>
+
+            <p>
+                Música, amigos, recuerdos y todas esas pequeñas
+                cosas que hacen especial mi vida.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- CONTRAPORTADA -->
+    <div class="contraportada">
+        <p>♡ fin ♡</p>
+    </div>
+
+
+    <!-- CONTROLES -->
+    <button class="boton anterior" id="anterior">
+        ❮
+    </button>
+
+    <button class="boton siguiente" id="siguiente">
+        ❯
+    </button>
+
+</div>
+<!-- Mensaje que aparecerá al seleccionar una emoción -->
+
+  </div></div></div>
+<div id="mensaje-emocion"></div>
+<script>
+  const botonesEmocion = document.querySelectorAll(".emocion");
+const mensaje = document.getElementById("mensaje-emocion");
+
+let temporizador;
+
+botonesEmocion.forEach(boton => {
+
+    boton.addEventListener("click", () => {
+
+        // Quitar selección anterior
+        botonesEmocion.forEach(b => {
+            b.classList.remove("seleccionada");
+        });
+
+        // Iluminar la emoción elegida
+        boton.classList.add("seleccionada");
+
+        // Obtener mensaje
+        const texto = boton.dataset.mensaje;
+
+        mensaje.textContent = texto;
+
+        // Mostrar mensaje
+        mensaje.classList.add("mostrar");
+
+        // Reiniciar temporizador
+        clearTimeout(temporizador);
+
+        temporizador = setTimeout(() => {
+
+            mensaje.classList.remove("mostrar");
+
+        }, 5000);
+
+    });
+
+});
+</script>
+
+<script>
+  const portada = document.querySelector(".portada");
+
+const paginas = [
+    document.querySelector(".pagina1"),
+    document.querySelector(".pagina2"),
+    document.querySelector(".pagina3")
+];
+
+const siguiente = document.getElementById("siguiente");
+const anterior = document.getElementById("anterior");
+
+let paginaActual = -1;
+
+
+/* =========================
+   PASAR PÁGINA
+========================= */
+
+siguiente.addEventListener("click", () => {
+
+    if (paginaActual < paginas.length - 1) {
+
+        paginaActual++;
+
+        if (paginaActual === 0) {
+
+            portada.classList.add("volteada");
+
+        } else {
+
+            paginas[paginaActual - 1]
+                .classList.add("volteada");
+        }
+    }
+
+});
+
+
+/* =========================
+   REGRESAR PÁGINA
+========================= */
+
+anterior.addEventListener("click", () => {
+
+    if (paginaActual >= 0) {
+
+        if (paginaActual === 0) {
+
+            portada.classList.remove("volteada");
+
+        } else {
+
+            paginas[paginaActual - 1]
+                .classList.remove("volteada");
+        }
+
+        paginaActual--;
+    }
+
+});
+</script>
+
+
+
+
+
+
 
 </body>
 </html>
@@ -431,7 +777,8 @@ function updateUI() {
 <!--
  cosas que quiero agregar:
 
-valores y pricipios (que creo y como los aplico en mi vida)list de gratitud
+valores y pricipios (que creo y como los aplico en mi vida)
+list de gratitud
  copartir libros, peliculas y seires favoritas
  expacios de reflexion personal sobre tus estudios 
  viztazo a tus pasatiempos, coomo arte fotografia o los deportes
